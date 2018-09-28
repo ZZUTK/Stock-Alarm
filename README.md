@@ -4,7 +4,7 @@
 * Python 2.7+
 
 ## TODO
-* Set your email address in `stock_alarm.py` line 155
+* Set your email address in [`stock_alarm.py`](./stock_alarm.py) line 155
 * Set your stocks in `stocks.py` by following the examples
 
 ## Run
