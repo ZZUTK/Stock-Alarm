@@ -83,9 +83,12 @@ class StockAlarm(Thread):
               (intervals[interval], ticker, api_key)
 
         # request data
-        fp = urllib.urlopen(url)
-        response_data = json.loads(fp.read().decode('utf8'))
-        fp.close()
+        try:
+            fp = urllib.urlopen(url)
+            response_data = json.loads(fp.read().decode('utf8'))
+            fp.close()
+        except ValueError:
+            response_data = []
 
         # target the price data
         price_data = []
