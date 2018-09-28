@@ -1,7 +1,7 @@
 # Stock-Alarm
 An alarm for stock price. When the price of a stock is lower than or equal to certian threshold, you will get alert by email.
 
-***Warning***
+***Warning: Do NOT distribute the scripts because the alarm email is sent via a Gmail account, whose password is involved in plaintext.***
 
 ## Pre-requisites
 * Python 2.7+
