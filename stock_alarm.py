@@ -129,8 +129,8 @@ class StockAlarm(Thread):
         """
 
         # sender email and password
-        my_address = 'dounjeff@gmail.com'
-        pwd = 'S871005y@ge'
+        my_address = 'stock.alarm.server@gmail.com'
+        pwd = 'Stock_Alarm_Server'
 
         # prepare the message
         msg = MIMEText(content)
