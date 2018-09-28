@@ -9,7 +9,7 @@ stocks = {
     'AAPL':     {'name': 'Apple',   'threshold': 180},
     'AMZN':     {'name': 'Amazon',  'threshold': 1900},
     'GOOGL':    {'name': 'Google',  'threshold': 1180},
-    'TSLA':     {'name': 'Tasla',   'threshold': 260},
+    'TSLA':     {'name': 'Tesla',   'threshold': 260},
     'NVDA':     {'name': 'Nvidia',  'threshold': 220},
     'FB':       {'name': 'FaceBook','threshold': 150},
 }
