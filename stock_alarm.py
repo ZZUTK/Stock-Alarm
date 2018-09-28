@@ -152,7 +152,7 @@ if __name__ == '__main__':
     print('Querying your stocks ...')
     stock_alarms = []
     for ticker in stocks:
-        stock_alarms.append(StockAlarm(ticker, email='zhifei.zhang.vip@gmail.com'))
+        stock_alarms.append(StockAlarm(ticker, email='your@email'))
         stock_alarms[-1].start()
         # sleep(5)
 
