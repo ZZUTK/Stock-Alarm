@@ -1,6 +1,6 @@
 # Stock-Alarm
 
-## Pre-requisits
+## Pre-requisites
 * Python 2.7+
 
 ## Run
