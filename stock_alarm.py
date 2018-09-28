@@ -13,13 +13,19 @@ class StockAlarm(Thread):
     # store stock prices, {ticker: [time_stamp, price]}
     price_table = OrderedDict()
 
-    def __init__(self, ticker):
+    def __init__(self, ticker, email):
         """
         :param ticker: str, e.g., GOOGLE, AAPL, etc.
+        :param email: str, email address to receive the alert
         """
         Thread.__init__(self)
         self.ticker = ticker
+        self.email = email
         self.is_active = True
+
+        # check input arguments
+        assert isinstance(self.ticker, str)
+        assert isinstance(self.email, str)
 
         # add stock to price table
         if self.ticker not in StockAlarm.price_table:
@@ -34,7 +40,7 @@ class StockAlarm(Thread):
                 if 0 < price <= stocks[self.ticker]['threshold']:
                     stocks[self.ticker]['threshold'] = price - .1
                     subject = '%s (%s) fell to $%.2f' % (stocks[self.ticker]['name'], self.ticker, price)
-                    StockAlarm.send_email(subject=subject)
+                    StockAlarm.send_email(to_addrs=self.email, subject=subject)
             sleep(5)
 
     def stop(self):
@@ -115,7 +121,7 @@ class StockAlarm(Thread):
         return date_price
 
     @staticmethod
-    def send_email(subject=None, content=None, to_addrs='zhifei.zhang.vip@gmail.com'):
+    def send_email(to_addrs, subject=None, content=None):
         """
         :param subject: str, subject of the email
         :param content: str, content of the email
@@ -146,7 +152,7 @@ if __name__ == '__main__':
     print('Querying your stocks ...')
     stock_alarms = []
     for ticker in stocks:
-        stock_alarms.append(StockAlarm(ticker))
+        stock_alarms.append(StockAlarm(ticker, email='zhifei.zhang.vip@gmail.com'))
         stock_alarms[-1].start()
         # sleep(5)
 
