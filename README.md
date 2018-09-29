@@ -37,3 +37,9 @@ The `Price` shows the latest stock price whose update time is denoted by `Last U
 
 **Note**: The setting of `Alarm` and `Expect` can be modified in `stocks.csv` (`threshold` and `expectation`) without interruption.
 However, adding and removing a stock requires restart. 
+
+## TODO
+- [x] Potential bugs
+- [ ] Email checking
+- [ ] Adding and removing stocks without interruption
+- [ ] More stable stock server
