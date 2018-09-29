@@ -7,11 +7,10 @@ An alarm for stock price. When the price of a stock is lower than or equal to ce
 * Python 2.7+
 
 ## TODO
-* Set your email address in [`stock_alarm.py`](./stock_alarm.py) line 155
-* Set your stocks in [`stocks.py`](stocks.py) by following the examples
+* Set your stocks in [`stocks.csv`](stocks.csv) by following the examples
 
 ## Run
 ```
-$ python stock_alarm.py
+$ python stock_alarm.py --email xxx@xxx.xxx
 ```
 
