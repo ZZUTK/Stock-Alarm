@@ -6,7 +6,7 @@ An alarm for stock price. When the price of a stock is lower than or equal to ce
 ## Pre-requisites
 * Python 2.7+
 
-## TODO
+## Before Running
 Set your stocks in [`stocks.csv`](stocks.csv) by following the examples.
 
 The headers in `stocks.csv`: 
