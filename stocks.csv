@@ -1,0 +1,7 @@
+ticker,name,threshold,expectation
+AAPL,Apple,200,240
+AMZN,Amazon,1900,2200
+GOOGL,Google,1180,1250
+TSLA,Tesla,240,320
+NVDA,Nvidia,240,320
+FB,FaceBook,150,180

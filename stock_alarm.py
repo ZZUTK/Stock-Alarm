@@ -1,4 +1,4 @@
-from stocks import stocks
+from stocks import Stocks
 import json
 from time import sleep
 import smtplib
@@ -10,17 +10,27 @@ from collections import OrderedDict
 
 
 class StockAlarm(Thread):
-    # store stock prices, {ticker: [time_stamp, price]}
-    price_table = OrderedDict()
+    # store stock prices, {ticker: [company_name, current_price, threshold, time_stamp]}
+    __price_table = OrderedDict()
 
-    def __init__(self, ticker, email):
+    def __init__(self, ticker, threshold, expectation, email, name, alarm_price_interval=.5, price_update_interval=5):
         """
         :param ticker: str, e.g., GOOGLE, AAPL, etc.
+        :param threshold: float, threshold to trigger the alarm
+        :param expectation: float, expected price
         :param email: str, email address to receive the alert
+        :param name: str, name of the stock, any name that you can recognize the stock
+        :param alarm_price_interval: float, price interval of triggering alarm, default $0.50
+        :param price_update_interval: float, time interval of price update, default 5sec
         """
         Thread.__init__(self)
         self.ticker = ticker
         self.email = email
+        self.threshold = threshold
+        self.expectation = expectation
+        self.name = name
+        self.alarm_price_interval = alarm_price_interval
+        self.price_update_interval = price_update_interval
         self.is_active = True
 
         # check input arguments
@@ -28,20 +38,31 @@ class StockAlarm(Thread):
         assert isinstance(self.email, str)
 
         # add stock to price table
-        if self.ticker not in StockAlarm.price_table:
-            StockAlarm.price_table[self.ticker] = []
+        if self.ticker not in StockAlarm.__price_table:
+            StockAlarm.__price_table[self.ticker] = []
 
     def run(self):
         while self.is_active:
             data = StockAlarm.get_stock_price(ticker=self.ticker)
             if data:
                 price = data[0][-1]
-                StockAlarm.price_table[self.ticker] = [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), price]
-                if 0 < price <= stocks[self.ticker]['threshold']:
-                    stocks[self.ticker]['threshold'] = price - .1
-                    subject = '%s (%s) fell to $%.2f' % (stocks[self.ticker]['name'], self.ticker, price)
-                    StockAlarm.send_email(to_addrs=self.email, subject=subject)
-            sleep(5)
+                StockAlarm.__price_table[self.ticker] = [
+                    self.name,
+                    price,
+                    self.threshold,
+                    self.expectation,
+                    datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                ]
+                if 0 < price <= self.threshold:
+                    self.threshold = price - self.alarm_price_interval
+                    subject = '%s (%s) fell to $%.2f' % (self.name, self.ticker, price)
+                    StockAlarm.send_email(to_addrs=self.email, subject=subject, content=StockAlarm.price_table())
+                elif price >= self.expectation:
+                    self.expectation = price + self.alarm_price_interval
+                    subject = '%s (%s) rose to $%.2f' % (self.name, self.ticker, price)
+                    StockAlarm.send_email(to_addrs=self.email, subject=subject, content=StockAlarm.price_table())
+
+            sleep(self.price_update_interval)
 
     def stop(self):
         self.is_active = False
@@ -83,12 +104,15 @@ class StockAlarm(Thread):
               (intervals[interval], ticker, api_key)
 
         # request data
+        response_data = []
         try:
             fp = urllib.urlopen(url)
-            response_data = json.loads(fp.read().decode('utf8'))
+            data = fp.read().decode('utf8')
+            if data:
+                response_data = json.loads(data)
             fp.close()
         except ValueError:
-            response_data = []
+            pass
 
         # target the price data
         price_data = []
@@ -149,36 +173,71 @@ class StockAlarm(Thread):
         server.sendmail(from_addr=my_address, to_addrs=to_addrs, msg=msg.as_string())
         server.close()
 
+    @staticmethod
+    def price_table():
+        """
+        :return: str, ready for print or save, visualizing the price table
+        """
+        head = '{:<15}{:>10}{:>10}{:>10}{:^30}\n{:-<75}\n'.format('Company', 'Price', 'Alarm', 'Expect', 'Last Update', '')
+        line_format = '{:<15}{:10.2f}{:10.2f}{:10.2f}{:^30}\n'
+        lines = head
+        for ticker in StockAlarm.__price_table:
+            if StockAlarm.__price_table[ticker]:
+                lines += line_format.format(
+                    StockAlarm.__price_table[ticker][0],
+                    StockAlarm.__price_table[ticker][1],
+                    StockAlarm.__price_table[ticker][2],
+                    StockAlarm.__price_table[ticker][3],
+                    StockAlarm.__price_table[ticker][4]
+                )
+        return lines
+
 
 if __name__ == '__main__':
     import os
+    import argparse
+    parser = argparse.ArgumentParser('stock_alarm')
+    parser.add_argument('--email', help='email to receive the alarm', required=True)
+    args = parser.parse_args()
+
     print('Querying your stocks ...')
+
+    # start threads, each of which monitors one stock
     stock_alarms = []
-    for ticker in stocks:
-        stock_alarms.append(StockAlarm(ticker, email='your@email'))
+    stock_dict = Stocks()
+    for ticker in stock_dict.stocks:
+        stock_alarms.append(StockAlarm(
+            ticker=ticker,
+            threshold=stock_dict.stocks[ticker]['threshold'],
+            expectation=stock_dict.stocks[ticker]['expectation'],
+            email=args.email,
+            name=stock_dict.stocks[ticker]['name']
+        ))
         stock_alarms[-1].start()
-        # sleep(5)
 
     try:
-        head = '{:^15}{:>10}{:>12}{:^30}\n{:-<67}\n'.format('Company', 'Price($)', 'Alarm($)', 'Last Update', '')
-        line_format = '{:^15}{:10.2f}{:12.2f}{:^30}\n'
-        lines_pre = head
+        lines_pre = StockAlarm.price_table()
         while True:
-            lines = head
-            for ticker in StockAlarm.price_table:
-                if StockAlarm.price_table[ticker]:
-                    lines += line_format.format(
-                        stocks[ticker]['name'],
-                        StockAlarm.price_table[ticker][-1],
-                        stocks[ticker]['threshold'],
-                        StockAlarm.price_table[ticker][0]
-                    )
+            # print the price table
+            lines = StockAlarm.price_table()
             if lines != lines_pre:
                 lines_pre = lines
-                os.system('cls')
+                if os.name == 'nt':
+                    os.system('cls')
+                else:
+                    os.system('clear')
                 print(lines)
 
+            # check stocks.csv for updates on threshold and expectation
+            modification = stock_dict.check_modification()
+            if modification:
+                for ticker, key in modification:
+                    for stock_alarm in stock_alarms:
+                        if stock_alarm.ticker == ticker:
+                            exec 'stock_alarm.%s = stock_dict.stocks[ticker][key]' % key
+                            break
             sleep(5)
     except KeyboardInterrupt:
+        # stop all threads
         for stock_alarm in stock_alarms:
             stock_alarm.stop()
