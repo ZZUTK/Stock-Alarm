@@ -16,14 +16,12 @@ The headers in `stocks.csv`:
 * expectation - the high price triggering alarm
 
 ## Run
-Tested on Windows 8.1 and CentOS 7 (Linux)
+The code has been tested on Windows 8.1 and CentOS 7 (Linux). 
 ```
 $ python stock_alarm.py --email xxx@xxx.xxx
 ```
-Set the email to receive the alarm.
-
+Set the email to receive the alarm. 
 As running, you will see the prompt:
-
 ```
 Company             Price     Alarm    Expect         Last Update
 ---------------------------------------------------------------------------
