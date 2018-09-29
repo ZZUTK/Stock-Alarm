@@ -10,10 +10,10 @@ An alarm for stock price. When the price of a stock is lower than or equal to ce
 Set your stocks in [`stocks.csv`](stocks.csv) by following the examples.
 
 The headers in `stocks.csv`: 
-* ticker - stock symbol
-* name - stock name for your convenience
-* threshold - the low price triggering alarm
-* expectation - the high price triggering alarm
+* `ticker` - stock symbol
+* `name` - stock name for your convenience
+* `threshold` - the low price triggering alarm
+* `expectation` - the high price triggering alarm
 
 ## Run
 The code has been tested on Windows 8.1 and CentOS 7 (Linux). 
@@ -34,3 +34,6 @@ Tesla              264.77    240.00    320.00     2018-09-29 18:58:00
 ```
 
 The `Price` shows the latest stock price whose update time is denoted by `Last Update`. `Alarm` and `Expect` indicate the lower threshold and higher threshold for sending the alarm email. 
+
+**Note**: The setting of `Alarm` and `Expect` can be modified in `stocks.csv` (`threshold` and `expectation`) without interruption.
+However, adding and removing a stock requires restart. 
