@@ -16,7 +16,7 @@ The headers in `stocks.csv`:
 * expectation - the high price triggering alarm
 
 ## Run
-Tested on Windows8.1 and SentOS7 (Linux)
+Tested on Windows 8.1 and CentOS 7 (Linux)
 ```
 $ python stock_alarm.py --email xxx@xxx.xxx
 ```
