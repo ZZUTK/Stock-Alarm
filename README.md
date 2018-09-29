@@ -7,9 +7,9 @@ An alarm for stock price. When the price of a stock is lower than or equal to ce
 * Python 2.7+
 
 ## TODO
-Set your stocks in [`stocks.csv`](stocks.csv) by following the examples
+Set your stocks in [`stocks.csv`](stocks.csv) by following the examples.
 
-The headers: 
+The headers in `stocks.csv`: 
 * ticker - stock symbol
 * name - stock name for your convenience
 * threshold - the low price triggering alarm
