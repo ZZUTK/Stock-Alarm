@@ -1,5 +1,5 @@
 # Stock-Alarm
-An alarm for stock price. When the price of a stock is lower than or equal to certian threshold, you will get alert by email.
+An alarm for stock price. When the price of a stock is lower than or equal to certian threshold, you will get alert by email. In addition, when the price is higher than or equal to your expectation, an alarm email will be sent.
 
 ***Warning: Do NOT distribute the script because the alert email is sent via a Gmail account, whose password is in the code.***
 
