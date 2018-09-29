@@ -22,3 +22,15 @@ $ python stock_alarm.py --email xxx@xxx.xxx
 ```
 Set the email to receive the alarm.
 
+As running, you will see the prompt:
+
+```
+Company             Price     Alarm    Expect         Last Update
+---------------------------------------------------------------------------
+Apple              225.74    200.00    240.00     2018-09-29 18:58:05
+Amazon            2003.00   1900.00   2200.00     2018-09-29 18:58:00
+FaceBook           164.46    150.00    180.00     2018-09-29 18:58:05
+Google            1207.08   1180.00   1250.00     2018-09-29 18:58:05
+Nvidia             281.02    240.00    320.00     2018-09-29 18:58:05
+Tesla              264.77    240.00    320.00     2018-09-29 18:58:00
+```
