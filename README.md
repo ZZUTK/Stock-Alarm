@@ -19,4 +19,5 @@ The headers in `stocks.csv`:
 ```
 $ python stock_alarm.py --email xxx@xxx.xxx
 ```
+Set the email to receive the alarm.
 
