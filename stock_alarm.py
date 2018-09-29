@@ -10,7 +10,7 @@ from collections import OrderedDict
 
 
 class StockAlarm(Thread):
-    # store stock prices, {ticker: [company_name, current_price, threshold, time_stamp]}
+    # store stock prices, {ticker: [company_name, current_price, threshold, expectation, time_stamp]}
     __price_table = OrderedDict()
 
     def __init__(self, ticker, threshold, expectation, email, name, alarm_price_interval=.5, price_update_interval=5):
