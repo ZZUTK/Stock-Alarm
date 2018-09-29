@@ -32,3 +32,5 @@ Google            1207.08   1180.00   1250.00     2018-09-29 18:58:05
 Nvidia             281.02    240.00    320.00     2018-09-29 18:58:05
 Tesla              264.77    240.00    320.00     2018-09-29 18:58:00
 ```
+
+The `Price` shows the latest stock price whose update time is denoted by `Last Update`. `Alarm` and `Expect` indicate the lower threshold and higher threshold for sending the alarm email. 
