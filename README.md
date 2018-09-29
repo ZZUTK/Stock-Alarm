@@ -3,7 +3,7 @@ An alarm for stock price. When the price of a stock is lower than or equal to ce
 
 ***Warning: Do NOT distribute the script because the alert email is sent via a Gmail account, whose password is in the code.***
 
-## Pre-requisites
+## Pre-Requisites
 * Python 2.7+
 
 ## Before Running
@@ -40,6 +40,7 @@ However, adding and removing a stock requires restart.
 
 ## TODO
 - [x] Potential bugs
+- [ ] Fault checking, e.g., variable type 
 - [ ] Email checking
 - [ ] Adding and removing stocks without interruption
 - [ ] More stable stock server
