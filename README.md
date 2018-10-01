@@ -44,3 +44,4 @@ However, adding and removing a stock requires restart.
 - [ ] Email checking
 - [ ] Adding and removing stocks without interruption
 - [ ] More stable stock server
+- [ ] Unbalanced updating rate
